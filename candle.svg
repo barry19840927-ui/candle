@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200" role="img" aria-label="Cyber Candle: octocat/Hello-World">
+  <defs>
+    <filter id="glassBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+    <radialGradient id="flameGradient" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#00C7FF" stop-opacity="0.100" />
+      <stop offset="70%" stop-color="#007AFF" stop-opacity="0.100" />
+      <stop offset="100%" stop-color="#66D9FF" stop-opacity="0.100" />
+    </radialGradient>
+    <style>
+      .holder { fill: rgba(255,255,255,0.08); stroke: rgba(255,255,255,0.2); stroke-width: 8; }
+      .wick { fill: #007AFF; opacity: 0.8; }
+      .flame-core { fill: url(#flameGradient); opacity: 0; transform-origin: 200px 160px; animation: flicker 3s ease-in-out infinite; animation-play-state: paused; animation-delay: -0.1s; }
+      .flame-mid { fill: #00C7FF; opacity: 0.4; transform-origin: 200px 160px; animation: flicker calc(3s * 1.4) ease-in-out infinite; animation-play-state: paused; animation-delay: -0.8s; }
+      .flame-ember { fill: #66D9FF; opacity: 0.8; }
+      text { fill: #66D9FF; font-size: 16px; font-family: 'Segoe UI', sans-serif; }
+      @keyframes flicker {
+        0% { transform: scaleY(0.95) scaleX(0.98); opacity: 0.7; }
+        33% { transform: scaleY(1.05) scaleX(0.97); opacity: 1.0; }
+        66% { transform: scaleY(0.98) scaleX(1.02); opacity: 0.76; }
+        100% { transform: scaleY(1.02) scaleX(0.99); opacity: 0.9; }
+      }
+    </style>
+  </defs>
+
+  <rect x="80" y="32" width="240" height="160" rx="16" class="holder" filter="url(#glassBlur)" />
+  <rect x="184" y="144" width="32" height="32" class="wick" />
+
+  <path d="M200 160 C176 200 184 152 200 120 C216 152 224 200 200 160 Z" class="flame-core" data-mode="ember" />
+  <path d="M200 160 C184 128 192 112 200 96 C208 112 216 128 200 160 Z" class="flame-mid" />
+  <ellipse cx="200" cy="152" rx="24" ry="8" class="flame-ember" />
+
+  <text x="24" y="24">octocat/Hello-World</text>
+  <text x="24" y="48">Stars: 0</text>
+  <text x="24" y="72">Commits(30d): 0</text>
+  <text x="24" y="96">Days since commit: 365</text>
+</svg>
