@@ -1,0 +1,48 @@
+name: Burn Cyber Candle
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  burn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Render candle
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python candle.py
+
+      - name: Commit updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "No candle changes detected."
+            exit 0
+          fi
+          git add candle.svg candle_cache.json README.md
+          tree_hash_before=$(git rev-parse HEAD^{tree})
+          git commit -m "chore: update cyber candle [auto]"
+          tree_hash_after=$(git rev-parse HEAD^{tree})
+          if [ "$tree_hash_before" = "$tree_hash_after" ]; then
+            echo "Atomic tree unchanged, skipping push."
+            exit 0
+          fi
+          git push
